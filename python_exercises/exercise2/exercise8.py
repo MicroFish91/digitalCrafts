@@ -9,6 +9,8 @@ elif service == "fair":
     tip = bill * 0.15
 elif service == "bad":
     tip = bill * 0.1
+else:
+    tip = 0
 
 total = bill + tip
 totalEach = total / people
