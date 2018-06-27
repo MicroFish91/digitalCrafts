@@ -1,6 +1,7 @@
 bill = float(input("Total bill amount? "))
 service = input("Level of service? ")
 people = int(input("Split how many ways? "))
+tip = 0
 
 if service == "good":
     tip = bill * 0.2
