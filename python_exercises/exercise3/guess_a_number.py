@@ -33,3 +33,5 @@ while playCheck != "N":
             userGuess = ""
 
     playCheck = input("Do you want to play again (Y or N)? ")
+
+print("Bye!")

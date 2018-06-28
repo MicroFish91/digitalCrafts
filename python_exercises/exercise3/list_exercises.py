@@ -67,8 +67,65 @@ for index in range(0, len(myArray), 1):
 print("Multiplying vectors: ")
 print(outputArray)
 
-# Matrix Addition
+# Matrix Addition I
 list11 = [1, 3]
 list12 = [2, 4]
+matrixOne = []
+
+list21 = [-5, 8]
+list22 = [10, -15]
+matrixTwo = []
+
+newMatrix = []
+
+# Holds [[1, 3], [2, 4]]
+matrixOne.append(list11)
+matrixOne.append(list12)
+
+# Holds [[-5, 8], [10, -15]]
+matrixTwo.append(list21)
+matrixTwo.append(list22)
+
+matrixHolder = []
+
+for indexOne in range(0, 2, 1):
+    for indexTwo in range(0, 2, 1):
+        matrixHolder.append(matrixOne[indexOne][indexTwo] + matrixTwo[indexOne][indexTwo])
+
+    newMatrix.append(matrixHolder)
+    matrixHolder = []
 
 
+print("2-D Matrix Addition: ")
+print(newMatrix)
+
+
+# Matrix Addition II
+def matrixAddition(matrixOne, matrixTwo, dimension):
+
+    matrixHolder = []
+    newMatrix = []    
+    
+    for indexOne in range(0, dimension, 1):
+        for indexTwo in range(0, dimension, 1):
+            matrixHolder.append(matrixOne[indexOne][indexTwo] + matrixTwo[indexOne][indexTwo])
+
+        newMatrix.append(matrixHolder)
+        matrixHolder = []
+
+    print(newMatrix)
+
+matrixAddition(matrixOne, matrixTwo, 2)
+
+
+# De-dup
+print("De-dup: ")
+
+originalArray = ["A", "B", "C", "B", "D", "A", 1, "HEY", "HAY", "G", "B", "H", "D"]
+newArray = []
+
+for index in originalArray:
+    if index not in newArray:
+        newArray.append(index)
+
+print(newArray)

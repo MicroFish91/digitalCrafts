@@ -41,36 +41,26 @@ for character in userInputTwo:
 
 print(leetSpeak)
 
-# #Long-long vowels
-# userInputThree = input("Please enter text to be converted into long-long vowels: ")
+#Long-long vowels
+userInputThree = input("What phrase would you like to have long vowels? ")
 
-# totalVowels = 0
-# index = 0
-# count = 0
-# changeLetter = ""
+vowels = ("A", "a", "E", "e", "I", "i", "O", "o", "U", "u")
+vowelCheck = False
 
-# while index <= (len(userInputThree) - 1):
+outputThree = ""
     
-#     startIndex = index
-#     count = 0
-#     changeLetter = ""
+for character in userInputThree:
+    for vowel in vowels:
+        if character == vowel:
+            outputThree = outputThree + (vowel * 5)
+            vowelCheck = True
 
-#     while userInputThree[index] == "A":
-#         changeLetter = "A"
-#         index += 1
-#         count += 1
+    if vowelCheck == False:
+        outputThree += character
 
-#     if changeLetter:
-#         userInputThree = userInputThree[0:startIndex] + changeLetter * 5 +  userInputThree[index:len(userInputThree)]
-
-#         index -= 1
-
-#     print(index)
-
-#     index += 1
-
-# print (userInputThree)
-        
+    vowelCheck = False    
+    
+print(outputThree)
 
 #ROT13
 userInputFour = input("What phrase would you like to convert to ROT13? ")
@@ -86,11 +76,10 @@ for userChar in userInputFour:
             index = alphabet.index(alphaChar)
             index -= 13
 
-            if index > 25:
-                index = abs(25 - index)
+            # if index < 0:
+            #     index = 26 + index
 
     if userChar != " ":  
-        print(index)  
         rot13 += alphabet[index]
     else:
         rot13 += " "
