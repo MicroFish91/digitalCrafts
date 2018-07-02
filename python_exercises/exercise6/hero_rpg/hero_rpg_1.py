@@ -5,7 +5,19 @@
 # 1. fight goblin
 # 2. do nothing - in which case the goblin will attack him anyway
 # 3. flee
+
 class Character:
+
+    def __init__(self, health, power, charType):
+        self.health = health
+        self.power = power
+        self.charType = charType
+
+    def attack(self, foe):
+        foe.health -= self.power
+        print("{} does {} damage to the {}.".format(self.charType, self.power, foe.charType))
+        if foe.health <= 0:
+            print("The {} is dead.".format(foe.charType))
 
     def alive(self):
         if self.health > 0:
@@ -13,40 +25,32 @@ class Character:
         else:
             return False
 
-    
-
-class Hero(Character):
-    def __init__(self):
-        self.health = 10
-        self.power = 5
-    
-    def attack(self, enemy):
-        enemy.health -= self.power
-        print("You do {} damage to the goblin.".format(self.power))
-        if enemy.health <= 0:
-            print("The goblin is dead.")
-
     def print_status(self):
-        print("You have {} health and {} power.".format(self.health, self.power))
+        print("{} has {} health and {} power.".format(self.charType, self.health, self.power))
+
+    
+class Hero(Character):
+
+    def __init__(self, health, power):
+        super().__init__(health, power, "Hero")
+
 
 class Goblin(Character):
-    def __init__(self):
-        self.health = 6
-        self.power = 2
+    
+    def __init__(self, health, power):
+        super().__init__(health, power, "Goblin")
 
-    def attack(self, hero):
-        hero.health -= self.power
-        print("The goblin does {} damage to you.".format(self.power))
-        if hero.health <= 0:
-            print("You are dead.")
 
-    def print_status(self):
-        print("The goblin has {} health and {} power.".format(self.health, self.power))
+class Zombie(Character):
+    def __init__(self, health, power):
+        super().__init__(health, power, "Zombie")
+
 
 
 def main():
-    myHero = Hero()
-    myGoblin = Goblin()
+    myHero = Hero(10, 5)
+    myGoblin = Goblin(6, 2)
+    myZombie = Zombie(10000, 1)
 
     while myGoblin.alive() and myHero.alive():
         myHero.print_status()
