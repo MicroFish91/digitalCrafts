@@ -10,15 +10,17 @@ import random
 import time
 
 # Array holds experience required for each level up
-levelUp = [100, 200, 400, 800, 1200, 1800, 2400, 3000, 5000, 8000, 12000, 18000, 25000, 40000, 75000]
+levelUp = [50, 200, 400, 800, 1200, 1800, 2400, 3000, 5000, 8000, 12000, 18000, 25000, 40000, 75000]
 
 # Parent class for all character models
 class Character:
 
-    def __init__(self, health, power, charType, special, evasion, defense, critical, experience):
+    def __init__(self, health, power, charType, special, evasion, defense, critical, experience, coins):
+        self.maxHealth = health
         self.health = health
         self.power = power
         self.charType = charType
+        self.maxSpecial = special
         self.special = special
         self.evasion = evasion
         self.defense = defense
@@ -27,6 +29,8 @@ class Character:
         self.level = 1
         self.experience = experience
         self.charging = False
+        self.coins = coins
+        self.itemPouch = {"consumables": {}, "equipment": {}}
 
     # Basic Attack
     def attack(self, foe):
@@ -68,9 +72,11 @@ class Character:
 
         # Level up triggered!
         while self.experience >= levelUp[self.level - 1]:
-            self.health += 2
+            self.maxHealth += 2
+            self.health = self.maxHealth
             self.power += 1
-            self.special += 2
+            self.maxSpecial += 2
+            self.special = self.maxSpecial
             self.evasion += 1
             self.defense += 1
             self.critChance += 1
@@ -79,15 +85,18 @@ class Character:
 
             print()
             print("Congratulations again!! You have reached level {}. You gain the following stat points: ".format(self.level))
-            print("Health: {} + 2 = {}".format(self.health - 2, self.health))
+            print("Max Health: {} + 2 = {}".format(self.maxHealth - 2, self.maxHealth))
             print("Power: {} + 1 = {}".format(self.power - 1, self.power))
-            print("Special: {} + 2 = {}".format(self.special - 2, self.special))
+            print("Special: {} + 2 = {}".format(self.maxSpecial - 2, self.maxSpecial))
             print("Evasion: {} + 1 = {}".format(self.evasion - 1, self.evasion))
             print("Defense: {} + 1 = {}".format(self.defense - 1, self.defense))
             print("Crit. Chance: {} + 1 = {}".format(self.critMult - 1, self.critMult))
+            time.sleep(3)
+            print()
+            print("Your health has been restored to full.")
 
         print()
-        print("You have {} XP remaining until you reach level {}!".format(levelUp[self.level] - self.experience, self.level + 1))
+        print("You have {} XP remaining until you reach level {}!".format(levelUp[self.level - 1] - self.experience, self.level))
 
     # Increases chance to dodge by 35%. Upon successful dodge, has a chance to trigger a counter
     def evasive_maneuver(self, foe):
@@ -108,11 +117,59 @@ class Character:
             print("{} attemps to evade. It fails.".format(self.charType))
             print("{} is hit by {} for {} damage.".format(self.charType, foe.charType, foe.power - self.defense))
 
+    # Triggers for protagonists upon death
+    def death(self, myFoe):
+        print("You have died! ")
+        time.sleep(1)
+        print()
+        
+        for consumables, quantity in self.itemPouch["consumables"].items():
+            print("You lose {} {}. ".format(quantity, consumables))
+            self.itemPouch["consumables"][consumables] = 0
+
+        time.sleep(3)
+        print()
+
+        if self.level - myFoe.level >= 1:
+            print("You lose {} levels.".format(myFoe.level))
+            self.level -= myFoe.level
+            
+            # Stat Reduction
+            self.maxHealth -= (2 * myFoe.level)
+            self.power -= myFoe.level
+            self.maxSpecial -= (2 * myFoe.level)
+            self.evasion -= myFoe.level
+            self.defense -= myFoe.level
+            self.critChance -= myFoe.level
+            self.experience = 0
+
+        else:
+            print("You lose {} levels.".format(self.level - 1))
+            self.maxHealth -= (2 * (self.level - 1))
+            self.power -= (self.level - 1)
+            self.maxSpecial -= (2 * (self.level - 1))
+            self.evasion -= (self.level - 1)
+            self.defense -= (self.level - 1)
+            self.critChance -= (self.level - 1)
+            self.experience = 0
+            self.level = 1
+
+        time.sleep(1)
+
+        print()
+        print("The gods revive you to fight once more. ")
+        print("You return back with {} health. ".format(int(self.maxHealth / 2) + 1))
+        print()
+        self.health = int(self.maxHealth / 2) + 1
+
+        time.sleep(3)
+
+
 # Hero is resilient and has the double damage special ability
 class Hero(Character):
 
     def __init__(self):
-        super().__init__(15, 5, "Hero", 10, 5, 2, 2, 0)
+        super().__init__(15, 5, "Hero", 10, 5, 2, 2, 0, 0)
         self.fatalBlow = 1
 
     def special_ability(self, foe):
@@ -141,11 +198,12 @@ class Hero(Character):
 class Goblin(Character):
 
     def __init__(self):
-        super().__init__(20, 3, "Goblin", 5, 1, 1, 5, 50)
+        super().__init__(20, 5, "Goblin", 5, 1, 1, 5, 50, 10)
+        self.level = 1
 
     def attack(self, foe):
         if self.charging:
-            _charging(foe)
+            self._charging(foe)
 
         elif self.attackLand:
             foe.health -= (self.power - foe.defense)
@@ -166,9 +224,8 @@ class Goblin(Character):
             print("{} winds up to perform a devastating blow.. wait... {} totally whiffed!".format(self.charType, self.charType))
 
         elif self.charging:
-            _charging(foe)
-            
-
+            self._charging(foe)
+        
     def _charging(self, foe):
         if self.attackLand:
             # Unleash the charged attack
@@ -184,10 +241,12 @@ class Goblin(Character):
 class Zombie(Character):
 
     def __init__(self):
-        super().__init__(100, 1, "Zombie", 0, 0, 0, 0, 200)
+        super().__init__(125, 1, "Zombie", 0, 0, 0, 0, 200, 25)
+        self.level = 2
 
     def special_ability(self, foe):
-        print("Nothing happened.")
+        print("{}'s hunger for brains is increasing. {} gains +1 power. ".format(self.charType, self.charType))
+        self.power += 1
 
 def chooseProtagonist():
     inputCheck = True
@@ -264,20 +323,213 @@ def battlePrompt():
     print("5. Flee")
     print("> ", end=' ')
 
-# Need to add max health function
+# Stats modifiers stored in following order using arrays:
+# [maxHealth, currentHealth, power, special, evasion, defense, critical, experience]
+def itemShop(myHero):
 
+    # Returns an array of the hero's current consumables
+    def consumable_list(myHero):
+        itemList = []
+
+        for item in myHero.itemPouch["consumables"]:
+            itemList.append(myHero.itemPouch["consumables"][item])
+
+        return itemList
+
+    def buy_health(myHero):
+        
+        healthConsumables = {
+            "potion_of_health": {
+                "cost": 3, 
+                "statMod": [0, 10, 0, 0, 0, 0, 0, 0],
+                "permanent": True,
+                "tooltip": "potion_of_health: May be used in combat to instantly restore 10 health.  Worth 3 coins. ",
+                "quantity": 1
+                },
+
+            "potion_of_greater_health": {
+                "cost": 5,
+                "statMod": [0, 20, 0, 0, 0, 0, 0, 0],
+                "permanent": True,
+                "tooltip": "potion_of_greater_health: May be used in combat to instantly restore 20 health. Worth 5 coins.",
+                "quantity": 1
+                },
+
+            "elixir_of_health": {
+                "cost": 10,
+                "statMod": [0, 40, 0, 0, 0, 0, 0, 0], 
+                "permanent": True,
+                "tooltip": "elixir_of_health: May be used in combat to instantly restore 40 health. Worth 10 coins.",
+                "quantity": 1
+                },
+
+            "elixir_of_max_health": {
+                "cost": 20,
+                "statMod": [0, 999, 0, 0, 0, 0, 0, 0], 
+                "permanent": True,
+                "tooltip": "elixir_of_max_health: May be used in combat to instantly restore all of your health. Worth 20 coins.",
+                "quantity": 1
+                },
+
+            "fountain_of_youth": {
+                "cost": 400,
+                "statMod": [5, 999, 0, 0, 0, 0, 0, 0], 
+                "permanent": True,
+                "tooltip": "fountain_of_youth: Take a sip from the fountain to permanently gain 5 health points as well as restore your current health to max. Worth 400 coins.",
+                "quantity": 1
+                }
+        }
+
+        buying = True
+
+        while buying:
+            
+            print("You have {} coins.".format(myHero.coins))
+            print("Please enter the name of that which you would like to buy! ")
+            print()
+
+            for item in healthConsumables:
+                print(healthConsumables[item]["tooltip"])
+            
+            print("Press 'B' to exit. ")
+
+            time.sleep(2)
+            
+            userInput = input()
+
+            if userInput == "B":
+                buying = False
+            else:
+                if myHero.coins >= healthConsumables[userInput]["cost"]:
+                    myHero.coins -= healthConsumables[userInput]["cost"]
+
+                    itemCompare = consumable_list(myHero)
+
+                    if healthConsumables[userInput] not in itemCompare:
+                        myHero.itemPouch["consumables"][userInput] = healthConsumables[userInput]
+                    else:
+                        myHero.itemPouch["consumables"][userInput]["quantity"] += 1
+                else:
+                    print("Not enough coins to purchase this item, please try again later.")
+                    print()
+
+            time.sleep(1)      
+
+    def viewItems(myHero):
+        
+        print("You own the following items: ")
+        print()
+        time.sleep(1)
+
+        # Consumables
+        print("Consumables:")
+        for item in myHero.itemPouch["consumables"]:
+            print("{} You have {} of this item. ".format(myHero.itemPouch["consumables"][item]["tooltip"], myHero.itemPouch["consumables"][item]["quantity"]))
+
+
+    powerConsumables = {
+        "potion_of_strength": {
+            "cost": 10, 
+            "statMod": [0, 0, 5, 0, 0, 0, 0, 0],
+            "permanent": False,
+            "turns": 2,
+            "tooltip": "Potion of Strength: May be used in combat to instantly gain 5 power for 2 turns. "
+        },
+
+        "potion_of_greater_strength": {
+            "cost": 25,
+            "statMod": [0, 0, 10, 0, 0, 0, 0, 0],
+            "permanent": False,
+            "turns": 5,
+            "tooltip": "Potion of Greater Strength: May be used in combat to instantly gain 10 power for 5 turns. "
+        },
+
+        "testosterone_therapy": {
+            "cost": 300,
+            "statMod": [0, 0, 2, 0, 0, 0, 0, 0],
+            "permanent": True,
+            "tooltip": "Testosterone Therapy: Enroll for testosterone therapy and permanently gain 2 power. "
+        }
+    }
+
+    defenseConsumables = {
+        "potion_of_defense": {
+            "cost": 10, 
+            "statMod": [0, 0, 0, 0, 0, 2, 0, 0],
+            "permanent": False,
+            "turns": 2,
+            "tooltip": "Potion of Defense: May be used in combat to instantly gain 3 defense for 2 turns. "
+        },
+
+        "potion_of_greater_defense": {
+            "cost": 25,
+            "statMod": [0, 0, 0, 0, 0, 4, 0, 0],
+            "permanent": False,
+            "turns": 5,
+            "tooltip": "Potion of Greater Defense: May be used in combat to instantly gain 4 defense for 5 turns. "
+        },
+    }
+
+    equipment = {}
+
+    shopCheck = True
+
+    while shopCheck:
+        print("Welcome to the item shop! ")
+        print("""
+        What would you like to view? 
+        1. Health Consumables
+        2. Power Consumables
+        3. Defense Consumables
+        4. Equipment
+        5. View Current Inventory
+        6. Back to Start
+        """)
+
+        userInput = input()
+
+        if userInput == "1":
+            buy_health(myHero)
+        elif userInput == "2":
+            print()
+        elif userInput == "3":
+            print()
+        elif userInput == "4":
+            print()
+        elif userInput == "5":
+            viewItems(myHero)
+        elif userInput == "6":
+            shopCheck = False
+        else:
+            print("Invalid entry, please try again.")
+
+def coins(self, foe):
+    self.coins += foe.coins
+    print("You have gained {} coins for killing the {}. You now have {} coins. ".format(foe.coins, foe.charType, self.coins))
 
 def main():
 
     # Initialize variables
-    playAgain = true
+    playAgain = True
     myHero = chooseProtagonist()
-    myFoe = chooseFoe()
 
     while playAgain:
+        
+        # Start menu
+        print("What would you like to do? ")
+        print("1. View inventory & buy from item shop. ")
+        print("2. Fight a monster. ")
+
+        userInput = input()
+
+        # Visit the item shop
+        if userInput == "1":
+            itemShop(myHero)
+
         # Initialize new foe
         myFoe = chooseFoe()
 
+        # FIGHT!!!!!!
         while myHero.alive() and myFoe.alive():
             print()
             myHero.print_status()
@@ -319,7 +571,7 @@ def main():
                 print("Invalid input.")
                 print("Your character's indecision cost you your turn.")
 
-            time.sleep(3)
+            time.sleep(1)
             print()
 
             # ************************
@@ -334,19 +586,19 @@ def main():
                 # Foe performs a basic attack
                 if foeMove == 1:
                     print("{} retaliates with a basic attack!".format(myFoe.charType))
-                    time.sleep(3)
+                    time.sleep(1)
                     myFoe.attack(myHero)
                 
                 # Foe performs a special attack
                 elif foeMove == 2:
                     print("{} retaliates with a special attack!".format(myFoe.charType))
-                    time.sleep(3)
+                    time.sleep(1)
                     myFoe.special_ability(myHero)
                 
                 # Foe uses an item
                 elif foeMove == 3:
                     print("Foe uses an item.")
-                    time.sleep(3)
+                    time.sleep(1)
 
                 # Shouldn't ever trigger
                 else:
@@ -359,7 +611,18 @@ def main():
                 myHero.level_up(myFoe.experience)
                 time.sleep(5)
 
-        userInput
+                print()
+                coins(myHero, myFoe)
+
+            # If you are dead
+            if myHero.health <= 0:
+                myHero.death(myFoe)
+
+        # Check is user would like to continue playing
+        userInput = input("Would you like to play again ('Y' or 'N')? ")
+
+        if userInput == "N":
+            playAgain = False
 
 main()
 
