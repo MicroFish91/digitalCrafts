@@ -165,6 +165,21 @@ class Character:
         time.sleep(3)
 
 
+# Only admin has access to this class (primarily for test purposes)
+class godMode(Character):
+    def __init__(self):
+        super().__init__(1000, 10, "Tyrone Biggums", 100, 10, 2, 20, 0, 100000)
+        self.level = 10
+
+    def special_ability(self, foe):
+        self.maxHealth = int(input("New max health? "))
+        self.health = self.maxHealth
+        self.power = int(input("New power stat? "))
+        self.defense = int(input("New defense stat? "))
+        self.evasion = int(input("New evasion stat? "))
+        self.crtical = int(input("New critical strike chance? "))
+
+
 # Hero is resilient and has the double damage special ability
 class Hero(Character):
 
@@ -276,6 +291,10 @@ def chooseProtagonist():
         elif myHero == "5":
             myHero = eagerBeaver()
             inputCheck = False
+        elif myHero == "god":
+            print("ENTERING GOD MODE!")
+            myHero = godMode()
+            inputCheck = False
         else:
             print("Invalid choice, please try again. ")
 
@@ -334,6 +353,14 @@ def itemShop(myHero):
         for item in myHero.itemPouch["consumables"]:
             itemList.append(myHero.itemPouch["consumables"][item])
 
+        return itemList
+
+    def equipment_list(myHero):
+        itemList = []
+
+        for item in myHero.itemPouch["equipment"]:
+            itemList.append(myHero.itemPouch["equipment"][item])
+        
         return itemList
 
     def buy_health(myHero):
@@ -415,16 +442,85 @@ def itemShop(myHero):
 
             time.sleep(1)      
 
+    def buy_equipment(myHero):
+        equipment = {
+            "great_sword": {
+                "cost": 250,
+                "statMod": [0, 0, 5, 10, -2, 0, 5, 0],
+                "durability:": 100,
+                "hands": 2,
+                "tooltip": "great_sword: 2-handed weapon imbued with +5 power, +10 special, and +5% to critical chance. Reduces your evasion by 2%. Durability 100. Worth 250 coins."
+            },
+
+            "short_sword": {
+                "cost": 125,
+                "statMod": [0, 0, 2, 5, 0, 0, 2, 0],
+                "durability": 75,
+                "hands": 1,
+                "tooltip": "short_sword: 1-handed weapon imbued with +2 power, +5 special, and +2% to critical chance. Durability 75. Worth 125 coins. "
+            },
+
+            "metal_shield": {
+                "cost": 125,
+                "statMod": [5, 0, 0, 0, 0, 2, 0, 0],
+                "hands": 1,
+                "tooltip": "metal_shield: 1-handed shield imbued with +5 health and +2 defense. Worth 125 coins."
+            }
+        }
+
+        buying = True
+
+        while buying:
+            
+            print("You have {} coins.".format(myHero.coins))
+            print("Please enter the name of that which you would like to buy! ")
+            print()
+
+            for item in equipment:
+                print(equipment[item]["tooltip"])
+            
+            print("Press 'B' to exit. ")
+
+            time.sleep(2)
+            
+            userInput = input()
+
+            if userInput == "B":
+                buying = False
+            else:
+                if myHero.coins >= equipment[userInput]["cost"]:
+
+                    itemCompare = equipment_list(myHero)
+
+                    if equipment[userInput] not in itemCompare:
+                        myHero.coins -= equipment[userInput]["cost"]
+                        myHero.itemPouch["equipment"][userInput] = equipment[userInput]
+                    else:
+                        print("You already own this item. Equipment items are unique and only one of each may be held at a time.")
+                else:
+                    print("Not enough coins to purchase this item, please try again later.")
+                    print()
+
+            time.sleep(1)
+
     def viewItems(myHero):
         
         print("You own the following items: ")
         print()
         time.sleep(1)
 
-        # Consumables
+        # Print Consumables
         print("Consumables:")
         for item in myHero.itemPouch["consumables"]:
             print("{} You have {} of this item. ".format(myHero.itemPouch["consumables"][item]["tooltip"], myHero.itemPouch["consumables"][item]["quantity"]))
+
+        print()
+        time.sleep(1)
+
+        # Print Equipment
+        print("Equipment:")
+        for item in myHero.itemPouch["equipment"]:
+            print(myHero.itemPouch["equipment"][item]["tooltip"])
 
 
     powerConsumables = {
@@ -470,8 +566,6 @@ def itemShop(myHero):
         },
     }
 
-    equipment = {}
-
     shopCheck = True
 
     while shopCheck:
@@ -491,11 +585,11 @@ def itemShop(myHero):
         if userInput == "1":
             buy_health(myHero)
         elif userInput == "2":
-            print()
+            print("Functionality not yet added.")
         elif userInput == "3":
-            print()
+            print("Functionality not yet added.")
         elif userInput == "4":
-            print()
+            buy_equipment(myHero)
         elif userInput == "5":
             viewItems(myHero)
         elif userInput == "6":
