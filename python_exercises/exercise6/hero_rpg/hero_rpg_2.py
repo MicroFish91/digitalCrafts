@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-
-# In this simple RPG game, the hero fights the goblin. He has the options to:
-
-# 1. fight goblin
-# 2. do nothing - in which case the goblin will attack him anyway
-# 3. flee
-
 import random
 import time
 
@@ -31,6 +23,8 @@ class Character:
         self.charging = False
         self.coins = coins
         self.itemPouch = {"consumables": {}, "equipment": {}}
+        self.hands = 0
+        self.equipped = ["", ""]
 
     # Basic Attack
     def attack(self, foe):
@@ -164,6 +158,166 @@ class Character:
 
         time.sleep(3)
 
+    def use_item(self):
+        print("You have the following items: ")
+        print()
+        
+        for item in self.itemPouch["consumables"]:
+            print(self.itemPouch["consumables"][item]["tooltip"])
+        
+        print()
+        print("Press 'B' if you do not want to use any items. You will lose your turn. ")
+
+        userInput = input("Please enter the name of the item you would like to use: ")
+
+        if userInput != "B":
+            statArray = self.itemPouch["consumables"][userInput]["statMod"]
+            
+            # [maxHealth, currentHealth, power, special, evasion, defense, critical, experience]
+            self.maxHealth += statArray[0]
+            self.health += statArray[0] + statArray[1]
+            self.power += statArray[2]
+            self.special += statArray[3]
+            self.evasion += statArray[4]
+            self.defense += statArray[5]
+            self.critical += statArray[6]
+            self.critical += statArray[7]
+
+    # Revert stats after unequipping an item (pass an array)
+    def unEquip(self, statsArray, itemName):
+        # [maxHealth, currentHealth, power, special, evasion, defense, critical, experience] 
+        self.maxHealth -= statsArray[0]
+        self.health -= (statsArray[0] + statsArray[1])
+        self.power -= statsArray[2]
+        self.special -= statsArray[3]
+        self.evasion -= statsArray[4]
+        self.defense -= statsArray[5]
+        self.critChance -= statsArray[6]
+        self.experience -= statsArray[7]
+
+        print("Unequipping {}.".format(itemName))
+        print()
+        time.sleep(1)
+
+    # Boost stats after Equipping an item (pass an array)
+    def equip(self, statsArray, itemName):
+        # [maxHealth, currentHealth, power, special, evasion, defense, critical, experience] 
+        self.maxHealth += statsArray[0]
+        self.health += (statsArray[0] + statsArray[1])
+        self.power += statsArray[2]
+        self.special += statsArray[3]
+        self.evasion += statsArray[4]
+        self.defense += statsArray[5]
+        self.critChance += statsArray[6]
+        self.experience += statsArray[7]
+
+        print("Equipping {}.".format(itemName))
+        print()
+        time.sleep(1)
+
+    def equip_item(self):
+
+        userInput = "" 
+        statsArray = []
+
+        while userInput != "B":
+
+            print("You have the following equipment items: ")
+            print()
+
+            for item in self.itemPouch["equipment"]:
+                if self.itemPouch["equipment"][item]["equipped"] == True:
+                    print(self.itemPouch["equipment"][item]["tooltip"] + " Status: Equipped.")
+                else:
+                    print(self.itemPouch["equipment"][item]["tooltip"] + " Status: Not Equipped.")
+            
+            print()
+            print("Press 'B' if you would like to go back. ")
+            print()
+            time.sleep(2)
+
+            userInput = input("Please enter the name of the item you would like to equip: ")
+
+            if userInput != "B":
+                # equipped[0] = weapon, equipped[1] = shield
+                if self.equipped[0] != "":
+                    weapon = self.itemPouch["equipment"][self.equipped[0]]
+                else:
+                    weapon = ""
+                
+                if self.equipped[1] != "":
+                    shield = self.itemPouch["equipment"][self.equipped[1]]
+                else:
+                    shield = ""
+                
+                newItem = self.itemPouch["equipment"][userInput]
+
+                # if you have less than 2 hands available and you want to equip a 2 hand weapon
+                if self.itemPouch["equipment"][userInput]["hands"] == 2:
+                    # Unequip items and revert stats
+                    if weapon != "":
+                        statsArray = weapon["statMod"]
+                        self.equipped[0] = ""
+                        self.hands += weapon["hands"]
+                        self.unEquip(statsArray, weapon["name"])
+                        self.itemPouch["equipment"][weapon["name"]]["equipped"] = False
+                    
+                    if shield != "":
+                        statsArray = shield["statMod"]
+                        self.equipped[1] = ""
+                        self.hands += weapon["hands"]
+                        self.unEquip(statsArray, shield["name"])
+                        self.itemPouch["equipment"][shield["name"]]["equipped"] = False
+
+                    # Equip two hand item
+                    self.equipped[0] = newItem["name"]
+                    self.hands = 0
+                    self.itemPouch["equipment"][userInput]["equipped"] = True
+                    statsArray = newItem["statMod"]
+                    self.equip(statsArray, newItem["name"])
+                    
+                # if trying to equip 1 hand weapon
+                if (self.itemPouch["equipment"][userInput]["type"] == "Weapon") and (self.itemPouch["equipment"][userInput]["hands"] == 1):
+                    # Unequip items and revert stats
+                    if weapon != "":
+                        statsArray = weapon["statMod"]
+                        self.hands += weapon["hands"]
+                        self.equipped[0] = ""
+                        self.unEquip(statsArray, weapon["name"])
+                        self.itemPouch["equipment"][weapon["name"]]["equipped"] = False
+
+                    # Equip one hand weapon
+                    self.equipped[0] = newItem["name"]
+                    self.hands -= newItem["hands"]
+                    self.itemPouch["equipment"][userInput]["equipped"] = True
+                    statsArray = newItem["statMod"]
+                    self.equip(statsArray, newItem["name"])
+
+                # if trying to equip shield
+                if self.itemPouch["equipment"][userInput]["type"] == "Shield":
+                    # Unequip if 2 hand weapon or shield
+                    if weapon != "":
+                        if weapon["type"] == 2:
+                            statsArray = weapon["statMod"]
+                            self.hands += weapon["hands"]
+                            self.equipped[0] = ""
+                            self.unEquip(statsArray, weapon["name"])
+                            self.itemPouch["equipment"][weapon["name"]]["equipped"] = False
+
+                    if shield != "":
+                        statsArray = shield["statMod"]
+                        self.hands += shield["hands"]
+                        self.equipped[1] = ""
+                        self.unEquip(statsArray, shield["name"])
+                        self.itemPouch["equipment"][weapon["name"]]["equipped"] = False
+
+                    # Equip shield
+                    self.equipped[1] = newItem["name"]
+                    self.hands -= newItem["hands"]
+                    self.itemPouch["equipment"][userInput]["equipped"] = True
+                    statsArray = newItem["statMod"]
+                    self.equip(statsArray, newItem["name"])
+
 
 # Only admin has access to this class (primarily for test purposes)
 class godMode(Character):
@@ -171,6 +325,7 @@ class godMode(Character):
         super().__init__(1000, 10, "Tyrone Biggums", 100, 10, 2, 20, 0, 100000)
         self.level = 10
 
+    # Can set own stats every turn
     def special_ability(self, foe):
         self.maxHealth = int(input("New max health? "))
         self.health = self.maxHealth
@@ -179,7 +334,7 @@ class godMode(Character):
         self.evasion = int(input("New evasion stat? "))
         self.crtical = int(input("New critical strike chance? "))
 
-
+# Protagonist Classes: Hero, Medic, Wizard, Samurai, Eager Beaver
 # Hero is resilient and has the double damage special ability
 class Hero(Character):
 
@@ -209,7 +364,8 @@ class Hero(Character):
 
         if foe.health <= 0:
             print("The {} is dead.".format(foe.charType))
-        
+
+# Foe Classes: Goblin, Zombie, Shadow, Sewer Monstrosity, Angry Sports Fan
 class Goblin(Character):
 
     def __init__(self):
@@ -445,25 +601,34 @@ def itemShop(myHero):
     def buy_equipment(myHero):
         equipment = {
             "great_sword": {
+                "name": "great_sword",
                 "cost": 250,
                 "statMod": [0, 0, 5, 10, -2, 0, 5, 0],
                 "durability:": 100,
                 "hands": 2,
+                "equipped": False,
+                "type": "Weapon",
                 "tooltip": "great_sword: 2-handed weapon imbued with +5 power, +10 special, and +5% to critical chance. Reduces your evasion by 2%. Durability 100. Worth 250 coins."
             },
 
             "short_sword": {
+                "name": "short_sword",
                 "cost": 125,
                 "statMod": [0, 0, 2, 5, 0, 0, 2, 0],
                 "durability": 75,
                 "hands": 1,
+                "equipped": False,
+                "type": "Weapon",
                 "tooltip": "short_sword: 1-handed weapon imbued with +2 power, +5 special, and +2% to critical chance. Durability 75. Worth 125 coins. "
             },
 
             "metal_shield": {
+                "name": "metal_shield",
                 "cost": 125,
                 "statMod": [5, 0, 0, 0, 0, 2, 0, 0],
                 "hands": 1,
+                "equipped": False,
+                "type": "Shield",
                 "tooltip": "metal_shield: 1-handed shield imbued with +5 health and +2 defense. Worth 125 coins."
             }
         }
@@ -575,9 +740,10 @@ def itemShop(myHero):
         1. Health Consumables
         2. Power Consumables
         3. Defense Consumables
-        4. Equipment
+        4. Equipment for Purchase
         5. View Current Inventory
-        6. Back to Start
+        6. Equip Items
+        7. Back to Start
         """)
 
         userInput = input()
@@ -593,6 +759,8 @@ def itemShop(myHero):
         elif userInput == "5":
             viewItems(myHero)
         elif userInput == "6":
+            myHero.equip_item()
+        elif userInput == "7":
             shopCheck = False
         else:
             print("Invalid entry, please try again.")
@@ -654,7 +822,7 @@ def main():
 
             # Use Item
             elif userInput == "4":
-                print("You use an item.")
+                myHero.use_item()
 
             # Flee
             elif userInput == "5":
