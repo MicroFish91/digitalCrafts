@@ -23,7 +23,7 @@ class Character:
         self.charging = False
         self.coins = coins
         self.itemPouch = {"consumables": {}, "equipment": {}}
-        self.hands = 0
+        self.hands = 2
         self.equipped = ["", ""]
 
     # Basic Attack
@@ -117,9 +117,9 @@ class Character:
         time.sleep(1)
         print()
         
-        for consumables, quantity in self.itemPouch["consumables"].items():
-            print("You lose {} {}. ".format(quantity, consumables))
-            self.itemPouch["consumables"][consumables] = 0
+        for consumables in self.itemPouch["consumables"].items():
+            print("You lose {} {}. ".format(self.itemPouch["consumables"][consumables]["quantity"], self.itemPouch["consumables"][consumables]["name"])
+            self.itemPouch["consumables"][consumables]["quantity"] = 0
 
         time.sleep(3)
         print()
@@ -152,7 +152,7 @@ class Character:
 
         print()
         print("The gods revive you to fight once more. ")
-        print("You return back with {} health. ".format(int(self.maxHealth / 2) + 1))
+        print("You return back with {} (half) health. ".format(int(self.maxHealth / 2) + 1))
         print()
         self.health = int(self.maxHealth / 2) + 1
 
@@ -523,6 +523,7 @@ def itemShop(myHero):
         
         healthConsumables = {
             "potion_of_health": {
+                "name": "potion_of_health",
                 "cost": 3, 
                 "statMod": [0, 10, 0, 0, 0, 0, 0, 0],
                 "permanent": True,
@@ -531,6 +532,7 @@ def itemShop(myHero):
                 },
 
             "potion_of_greater_health": {
+                "name": "potion_of_greater_health",
                 "cost": 5,
                 "statMod": [0, 20, 0, 0, 0, 0, 0, 0],
                 "permanent": True,
@@ -539,6 +541,7 @@ def itemShop(myHero):
                 },
 
             "elixir_of_health": {
+                "name": "elixir_of_health",
                 "cost": 10,
                 "statMod": [0, 40, 0, 0, 0, 0, 0, 0], 
                 "permanent": True,
@@ -547,6 +550,7 @@ def itemShop(myHero):
                 },
 
             "elixir_of_max_health": {
+                "name": "elixir_of_max_health",
                 "cost": 20,
                 "statMod": [0, 999, 0, 0, 0, 0, 0, 0], 
                 "permanent": True,
@@ -555,6 +559,7 @@ def itemShop(myHero):
                 },
 
             "fountain_of_youth": {
+                "name": "fountain_of_youth",
                 "cost": 400,
                 "statMod": [5, 999, 0, 0, 0, 0, 0, 0], 
                 "permanent": True,
