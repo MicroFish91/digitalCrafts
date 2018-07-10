@@ -1,0 +1,53 @@
+body {
+    width: 1400px;
+    height: 750px;
+    background-color: white;
+    border: solid pink;
+}
+
+h1 {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(0, 0, 0);
+    border: solid red;
+    color: white;
+    margin-top: 0;
+    margin-bottom: 3px;
+}
+
+.navbar {
+    margin-bottom: 2px;
+    margin-right: 15px;
+    width: 10%;
+    height: 80vh;
+    line-height: 80vh;
+    border: solid black;
+    text-align: center;
+    padding: 5px;
+    background-color: rgb(168, 61, 28);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main {
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    text-align: center;
+    width: 66%;
+    height: 43%;
+    padding: 10%;
+    border: solid black;
+    background-color: green;
+}
+
+.footer {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    height: 10%;
+    border: solid black;
+    background-color: yellow;
+}

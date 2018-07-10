@@ -1,0 +1,50 @@
+body {
+    width: 1400px;
+    height: 750px;
+    position: relative;
+}
+
+.gmain {
+    /* border: solid black; */
+    width: 50%;
+    position: absolute;
+    top: 10%;
+    left: 24.5% ;
+    margin-bottom: 10px;
+}
+
+.gmic {
+    position: absolute;
+    width: 1%;
+    top: 49.7%;
+    left: 68.5%;
+    z-index: 1;
+}
+
+.box {
+    width: 40%;
+    height: 5%;
+    position: absolute;
+    top: 48%;
+    left: 30%;
+    font-size: 20px;
+}
+
+.button1 {
+    position: absolute;
+    width: 10%;
+    height: 5%;
+    top: 57%;
+    left: 36%;
+    font-size: 15px;
+}
+
+.button2 {
+    position: absolute;
+    width: 12%;
+    height: 5%;
+    top: 57%;
+    left: 51%;
+    font-size: 15px;
+}
+
