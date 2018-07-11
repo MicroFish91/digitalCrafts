@@ -1,0 +1,40 @@
+.container {
+    position: relative;
+    width: 40%;
+    margin: auto;
+    padding: 20px;
+}
+
+.modal-dialog {
+    position: absolute;
+    background-color: grey;
+    width: 25%;
+    height: 15vh;
+    padding: 10px;
+    top: 35%;
+    left: 35%;
+    z-index: 1;
+    border-radius: 3%;
+    box-shadow: 4px 3px black;
+}
+
+.modal-buttons {
+    margin-left: 70%;
+}
+
+.modal-content {
+    padding: 10px;
+    background-color: white;
+}
+
+.modal-title {
+    margin-left: 2%;
+    margin-bottom: 2%;
+    color: white;
+    background-color: grey;
+    font-size: 28px;
+}
+
+.container {
+    opacity: 0.4;
+}

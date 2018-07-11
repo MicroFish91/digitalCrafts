@@ -1,0 +1,42 @@
+.container {
+    width: 900px;
+    background-color: lightgray;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    background-color: yellow;
+    height: 200px;
+}
+
+.main {
+    background-color: turquoise;
+    height: 300px;
+    position: relative;
+}
+
+.myPics {
+    width: 450px;
+    height: 100px;
+    background-color: pink;
+    float: left;
+    margin-left: 10px;
+    /* box-sizing: border-box; */
+
+}
+
+.move {
+    width: 400px;
+    height: 200px;
+    background-color: orange;
+    position: relative;
+    top: 0px;
+    padding: 20px;
+    border: red 20px solid;
+    box-sizing: border-box;
+}
+
+.clear {
+    clear: both;
+}
