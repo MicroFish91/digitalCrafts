@@ -1,0 +1,8 @@
+.cardBody {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cardBox {
+    margin: 0.8%;
+}
