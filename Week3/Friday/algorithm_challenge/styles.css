@@ -1,0 +1,122 @@
+#triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+  }
+
+#triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid red;
+  }
+
+  #right-triangle {
+      width: 0;
+      height: 0;
+      border-bottom: 50px solid red;
+      border-left: 50px solid red;
+      border-top: 50px solid transparent;
+      border-right: 50px solid transparent;
+  }
+
+  #square {
+      background-color: green;
+      border: solid black;
+      width: 50px;
+      height: 50px;   
+  }
+
+  #rectangle {
+      background-color: tan;
+      border: solid black;
+      width: 100px;
+      height: 50px;
+
+  }
+
+  #oval {
+      background-color: orange;
+      border: solid black;
+      width: 75px;
+      height: 65px;
+      border-radius: 60px;  
+  }
+
+  #circle {
+      background-color: pink;
+      border: solid black;
+      width: 50px;
+      height: 50px;
+      border-radius: 75px;  
+  }
+
+  #trapezoid {
+    width: 20%;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+  }
+
+  #star {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      border: solid black;
+  }
+
+  #triangle-up-star {
+    position: absolute;
+    bottom: 35%;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+  }
+
+#triangle-down-star {
+    position: absolute;
+    top: 35%;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid red;
+  }
+
+  #pacman {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      background-color: yellow;
+      border: solid black;
+      border-radius: 150px;
+  }
+
+  #pac-triangle {
+      position: absolute;
+      background-color: transparent;
+      width: 0;
+      height: 0;
+      border-top: 50px solid transparent;
+      border-bottom: 50px solid transparent;
+      border-right: 100px solid white;
+      left: 50%;
+      top: 26%;
+  }
+
+  #pac-eye {
+      position: absolute;
+      background-color: black;
+      width: 10%;
+      height: 10%;
+      border: solid black;
+      border-radius: 30px;
+      left: 65%;
+      top: 16%;
+  }
