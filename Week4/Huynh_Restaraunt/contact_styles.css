@@ -1,0 +1,21 @@
+.adjust {
+    text-indent: 0.5%;
+    padding-top: 1%;
+    font-size: 1.3em;
+}
+
+.cont {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.submit {
+    margin-left: 20%;
+}
+
+.dropdownForm {
+    position: absolute;
+    top: 20%;
+    left: 11%;
+    border: solid black 1px;
+}

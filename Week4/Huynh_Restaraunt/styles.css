@@ -1,0 +1,57 @@
+.myCarouselImg {
+    height: auto;
+    width: auto;
+    overflow: hidden;
+    object-fit: contain;
+    height: 70vh;
+}
+
+.centerAlign {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.boxStyle {
+    opacity: 0.8; 
+    border: solid black 1px;
+    height: 17vh;
+    line-height: 3vh;
+}
+
+.buttonImg {
+    position: absolute;
+    top: 78%;
+    left: 61%;
+    opacity: 1;
+    border: solid black 1px;
+}
+
+.parallax { 
+
+    position: relative;
+
+    /* The image used */
+    background-image: url("https://us.123rf.com/450wm/alexraths/alexraths1604/alexraths160400003/55844553-sea-food-place-setting-on-wooden-table-with-copy-space-menu-card-for-restaurants.jpg?ver=6");
+
+    /* Set a specific height */
+    height: 500px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.iconImg img {
+    position: absolute;
+    width: 5%;
+    left: 5%;
+    top: 10%;
+    border: solid black 2px;
+}
+
+.backgroundImg {
+    width: 100%;
+}
