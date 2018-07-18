@@ -1,0 +1,42 @@
+h1 {
+    font-size: 1.5em;
+    text-align: left;
+    margin: 0;
+    text-indent: 7%;
+}
+
+h2 {
+    font-size: 2.2em;
+    color: rgb(69, 69, 69);
+}
+
+h3 {
+    color: #347eff;
+}
+
+.header {
+    background-color: rgb(110, 200, 230);
+    text-align: left;
+    color: white;
+    font-size: 2em;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.header2 {
+    background-color: lightgrey;
+    padding: 2%;
+    margin-top: 2%;
+}
+
+.bodyConfig {
+    padding: 2%;
+}
+
+.comments {
+    background-color: orange;
+    color: white;
+    margin: auto;
+}
