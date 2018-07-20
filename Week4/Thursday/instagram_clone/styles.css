@@ -1,0 +1,36 @@
+.topRow {
+    background-color: lightblue;
+    width: 100%;
+    border: solid black;
+    margin: auto;
+    margin-bottom: 2%;
+
+}
+
+.cols {
+    margin: auto;
+}
+
+img {
+    width: 75%;
+}
+
+.botBox {
+    margin: auto;
+    border: solid black;
+    text-align: center;
+    height: 50vh;
+    background-color: lightgreen;
+    overflow: hidden;
+}
+
+.image1 {
+    width: 30%; 
+    border: solid brown 7px;    
+}
+
+.highlight {
+    padding: 2%;
+    border: solid brown 5px;
+    background-color: lightgreen;
+}
