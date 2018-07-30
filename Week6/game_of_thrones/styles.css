@@ -1,0 +1,11 @@
+h1 {
+    text-align: center;
+    font-size: 4em;
+    padding: 1.5%;
+}
+
+.characters {
+    text-align: left;
+    height: 80vh;
+}
+

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Weather Application</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- Header -->
+    <nav class="navbar navbar-dark bg-dark justify-content-between text-light header">
+        <a class="navbar-brand"><h1><u>Weather Forecast</u></h1></a>
+        <form class="form-inline" style="margin-right: 3%">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search-field">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="button">Search</button>
+        </form>
+    </nav>
+    
+    <!-- Map -->
+    <!-- https://maps.google.com/?ll=latitude,longitude -->
+    <!-- https://maps.google.com/?ll=51.51,-0.13 -->
+    <!-- API Key: AIzaSyDffw0066YqW6BxV8Smx-oBzvX6UMkNTUY -->
+    <div class="row map">
+        <div class="offset-1 bg-light"></div>
+        <div class="col-10 bg-dark">
+            <iframe width="90%" height="85%" frameborder="0" style="border: solid black 2px; margin-top: 2%"  allowfullscreen id="mapFrame">
+            </iframe>
+        </div>
+        <div class="offset-1 bg-light"></div>
+    </div>
+
+    <div class="row bullets bg-light">
+        <div class="col-12 bullet" id="weather" style="text-align: center; font-size: 2em">
+        </div>
+    </div>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

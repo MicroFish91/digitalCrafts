@@ -1,0 +1,43 @@
+body {
+    background-color: lightgreen;
+}
+
+/* Section 1 - Header */
+h1 {
+    font-size: 2.5em;
+    padding: 3%;
+}
+
+.header {
+    text-indent: 10%;
+    border: solid black 2px;
+}
+
+
+/* Section 2 - Map */
+.map {
+    height: 50vh;
+    text-align: center;
+    border: solid black 2px;
+    margin-top: 0.2%;
+    background-color: lightgoldenrodyellow;
+}
+
+.frame {
+    margin: auto;
+    background-color: white;
+}
+
+
+/* Info */
+.bullets {
+    height: 34vh;
+    border: solid black 2px;
+    margin-top: 0.3%;
+    background-color: lightgoldenrodyellow;
+}
+
+.bullet {
+    text-align: center;
+    background-color: lightcyan;
+}
