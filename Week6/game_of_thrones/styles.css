@@ -4,8 +4,6 @@ h1 {
     padding: 1.5%;
 }
 
-.characters {
-    text-align: left;
-    height: 80vh;
+.background {
+    width: 100%;
 }
-

@@ -12,31 +12,36 @@
   </head>
   <body>
     <!-- Header -->
-    <nav class="navbar navbar-dark bg-dark justify-content-between text-light header">
-        <a class="navbar-brand"><h1><u>Weather Forecast</u></h1></a>
+    <nav class="navbar navbar-primary bg-primary justify-content-between text-light header">
+        <a class="navbar-brand"><h1>Weather Forecast</h1></a>
         <form class="form-inline" style="margin-right: 3%">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search-field">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="button">Search</button>
+            <input class="form-control mr-sm-2 bg-light" type="search" placeholder="Search" aria-label="Search" id="search-field">
+            <button class="btn btn-outline-success my-2 my-sm-0 bg-dark text-light" type="submit" id="button">Search</button>
         </form>
     </nav>
     
     <!-- Map -->
     <!-- https://maps.google.com/?ll=latitude,longitude -->
-    <!-- https://maps.google.com/?ll=51.51,-0.13 -->
-    <!-- API Key: AIzaSyDffw0066YqW6BxV8Smx-oBzvX6UMkNTUY -->
     <div class="row map">
         <div class="offset-1 bg-light"></div>
-        <div class="col-10 bg-dark">
+        <div class="col-10 mapBack">
             <iframe width="90%" height="85%" frameborder="0" style="border: solid black 2px; margin-top: 2%"  allowfullscreen id="mapFrame">
             </iframe>
         </div>
         <div class="offset-1 bg-light"></div>
     </div>
 
-    <div class="row bullets bg-light">
-        <div class="col-12 bullet" id="weather" style="text-align: center; font-size: 2em">
+    <!-- Bottom -->
+    <div class="row bullets" style="background-color: white">
+        <div class="col-12 bullet" id="weather" style="text-align: center; font-size: 2em">Global <p>Weather Forecast</p>
         </div>
     </div>
+
+    <div style="background-color: white">
+        <img class="condition" id="weatherImage" src="https://img.clipartxtras.com/aecc3e2ecbb7c0e859ccaa8d2ef4c6c8_globe-2-clip-art-at-clkercom-vector-clip-art-online-royalty-small-globe-drawing_570-512.svg">
+    </div>
+
+
       
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
