@@ -1,11 +1,14 @@
 {
-  "name": "week7",
+  "name": "friday",
   "version": "1.0.0",
-  "main": "callback_exercises.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
