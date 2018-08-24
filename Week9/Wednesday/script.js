@@ -1,12 +1,12 @@
 let express = require('express');
 let app = express();
 let axios = require('axios');
-var responses = [];
+// var responses = [];
 
-var rp = require('request-promise');
-const fs = require('fs-extra');
+// var rp = require('request-promise');
+// const fs = require('fs-extra');
 
-var url = [ 'https://en.wikipedia.org/wiki/Futures_and_promises', 'https://en.wikipedia.org/wiki/Continuation-passing_style', 'https://en.wikipedia.org/wiki/JavaScript', 'https://en.wikipedia.org/wiki/Node.js', 'https://en.wikipedia.org/wiki/Google_Chrome' ];
+// var url = [ 'https://en.wikipedia.org/wiki/Futures_and_promises', 'https://en.wikipedia.org/wiki/Continuation-passing_style', 'https://en.wikipedia.org/wiki/JavaScript', 'https://en.wikipedia.org/wiki/Node.js', 'https://en.wikipedia.org/wiki/Google_Chrome' ];
 
 // var r1 = axios.get(url[0])
 // .then(function(response){

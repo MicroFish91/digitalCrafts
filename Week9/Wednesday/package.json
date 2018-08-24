@@ -1,0 +1,27 @@
+{
+  "name": "wednesday",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bluebird": "^3.5.1",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "fs-extra": "^7.0.0",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "pg-promise": "^8.4.6",
+    "prompt-promise": "^1.0.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
