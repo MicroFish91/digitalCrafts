@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Glyphicon} from 'react-bootstrap';
-import {Media} from 'react-bootstrap';
+
 
 
 class Rating extends Component {
