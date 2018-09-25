@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import ContactItem from './ContactItem';
+import PropTypes from 'prop-types';
+
 
 class Form extends Component {
 
@@ -20,7 +23,7 @@ class Form extends Component {
         },
         {
           name: "push",
-          email: "joe@joe.com",
+          email: "push@joe.com",
           number: 1,
           address: "myaddress on Baker St.",
           city: "Houston",
@@ -29,7 +32,7 @@ class Form extends Component {
         },
         {
           name: "Matt",
-          email: "joe@joe.com",
+          email: "matt@joe.com",
           number: 1,
           address: "myaddress on Baker St.",
           city: "Houston",
@@ -43,10 +46,19 @@ class Form extends Component {
   // Pass current state of contacts and returns sorted array of contacts
   sortAlphabetically(contactList){
     
-    var contactNames = contactList.map(word => (word.name));
+    var sortedNames = contactList.map(word => (word.name.toLowerCase()));
+    var unsortedNames = sortedNames.slice();
     var sortedList = [];
-    
-    contactNames.sort();
+
+    sortedNames.sort();
+
+    sortedNames.forEach((word) => {
+
+      sortedList.push(contactList[unsortedNames.indexOf(word)]);
+
+    })
+
+    return sortedList;
 
   }
 
@@ -72,6 +84,12 @@ class Form extends Component {
     this.setState({contacts: newContacts});
 
   }
+
+  onDelete(){
+
+    
+
+  }
   
 
   render() {
@@ -79,7 +97,6 @@ class Form extends Component {
     // Field Parameters
     var contactInfo = ["Name", "Email", "Phone", "Address", "City", "State", "Zip"];
 
-    var myContacts = [];
     var sortedContacts = [];
 
     // If array exists, map it to show below form
@@ -88,12 +105,9 @@ class Form extends Component {
       // Sort
       sortedContacts = this.sortAlphabetically(this.state.contacts);
 
-      // Map
-      myContacts = sortedContacts.map(contact => {
-      return <p> Name: {contact.name}, Email: {contact.email}, Phone Number: {contact.number}, Address: {contact.address}, City: {contact.city}, State: {contact.state}, Zip Code: {contact.zip}</p>;
-      })
-
     }
+
+    console.log(sortedContacts);
 
     // Converts to Array of Search Fields
     var contactFields = contactInfo.map(value => {
@@ -126,7 +140,7 @@ class Form extends Component {
 
         <div>
 
-          {myContacts}
+          <ContactItem key={sortedContacts.name} contact={sortedContacts}  />
 
         </div>
 
