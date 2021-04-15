@@ -118,7 +118,7 @@ class Character:
         print()
         
         for consumables in self.itemPouch["consumables"].items():
-            print("You lose {} {}. ".format(self.itemPouch["consumables"][consumables]["quantity"], self.itemPouch["consumables"][consumables]["name"])
+            print("You lose {} {}. ".format(self.itemPouch["consumables"][consumables]["quantity"], self.itemPouch["consumables"][consumables]["name"]))
             self.itemPouch["consumables"][consumables]["quantity"] = 0
 
         time.sleep(3)
